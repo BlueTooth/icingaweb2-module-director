@@ -94,6 +94,12 @@ class PropertyModifierArrayFilter extends PropertyModifierHook
         if (is_string($value)) {
             $value = [$value];
         }
+        
+        $isObject = false;
+        if(is_object($value)){
+            $value = explode(" ", print_r($value, true));
+            $isObject = true;
+        }
 
         if (! is_array($value)) {
             throw new InvalidPropertyException(
@@ -138,7 +144,7 @@ class PropertyModifierArrayFilter extends PropertyModifierHook
             return $this->emptyValue();
         }
 
-        return $result;
+        return $isObject? $result[0] : $result;
     }
 
     protected function emptyValue()
